@@ -1,0 +1,47 @@
+repos:
+  # 1️⃣ Rust 官方推荐的代码格式化工具
+  - repo: local
+    hooks:
+      - id: cargo-fmt
+        name: cargo fmt
+        entry: cargo fmt -- --check
+        language: system
+        types: [rust]
+        pass_filenames: false
+
+  # 2️⃣ 运行 clippy 静态分析器，发现潜在问题
+  - repo: local
+    hooks:
+      - id: cargo-clippy
+        name: cargo clippy
+        entry: cargo clippy -- -D warnings
+        language: system
+        types: [rust]
+        pass_filenames: false
+
+  # 3️⃣ 检查安全漏洞（用 cargo-deny）
+  - repo: local
+    hooks:
+      - id: cargo-deny
+        name: cargo deny
+        entry: cargo deny check
+        language: system
+        pass_filenames: false
+
+  # 4️⃣ 可选：运行单元测试（提交前快速验证）
+  - repo: local
+    hooks:
+      - id: cargo-test
+        name: cargo test
+        entry: cargo test --quiet
+        language: system
+        pass_filenames: false
+
+  # 5️⃣ 通用的 git 钩子（来自 pre-commit 官方仓库）
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.6.0
+    hooks:
+      - id: check-yaml           # 检查 yaml 文件语法
+      - id: check-toml           # 检查 Cargo.toml 格式
+      - id: trailing-whitespace  # 去掉尾部空格
+      - id: end-of-file-fixer    # 保证文件末尾有换行符

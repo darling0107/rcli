@@ -60,6 +60,9 @@ pub struct GenPassOpts {
 
     #[arg(long, default_value_t = true)]
     pub symbol: bool,
+
+    #[arg(short, long, default_value_t = true)]
+    pub verify: bool,
 }
 
 fn verify_input_file(filename: &str) -> Result<String, &'static str> {

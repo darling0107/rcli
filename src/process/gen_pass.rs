@@ -1,4 +1,5 @@
 use rand::seq::{IndexedRandom, SliceRandom};
+use zxcvbn::zxcvbn;
 
 // use crate::opts::{self, GenPassOpts};
 
@@ -13,6 +14,7 @@ pub fn process_genpass(
     lowercase: bool,
     number: bool,
     symbol: bool,
+    verify: bool,
 ) -> anyhow::Result<()> {
     let mut rng = rand::rng();
     let mut password = Vec::new();
@@ -50,9 +52,13 @@ pub fn process_genpass(
 
     password.shuffle(&mut rng);
 
-    // TODO: make sure the password has at least one of each type
+    let password_str = String::from_utf8(password)?;
+    println!("{}", password_str);
 
-    println!("{}", String::from_utf8(password)?);
+    if verify {
+        let estimate = zxcvbn(&password_str, &[]).score();
+        println!("The password level is {}.", estimate);
+    }
 
     Ok(())
 }

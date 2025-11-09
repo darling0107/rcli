@@ -57,7 +57,7 @@ pub fn process_genpass(
 
     if verify {
         let estimate = zxcvbn(&password_str, &[]).score();
-        println!("The password level is {}.", estimate);
+        eprintln!("The password level is {}.", estimate);
     }
 
     Ok(())

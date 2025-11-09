@@ -21,7 +21,10 @@ pub enum OutputFormat {
 pub enum SubCommand {
     #[command(name = "csv", about = "Show csv, or convert CSV to other formats")]
     Csv(CsvOpts),
-    #[command(name = "genpass", about = "Generate a random password")]
+    #[command(
+        name = "genpass",
+        about = "Generate a random password and verify passwrod strength"
+    )]
     GenPass(GenPassOpts),
 }
 
@@ -46,6 +49,7 @@ pub struct CsvOpts {
 
 #[derive(Debug, Parser)]
 pub struct GenPassOpts {
+    /// generate password length
     #[arg(short, long, default_value_t = 16)]
     pub length: u8,
 
@@ -61,6 +65,7 @@ pub struct GenPassOpts {
     #[arg(long, default_value_t = true)]
     pub symbol: bool,
 
+    /// verify generate password of strength level
     #[arg(short, long, default_value_t = true)]
     pub verify: bool,
 }
